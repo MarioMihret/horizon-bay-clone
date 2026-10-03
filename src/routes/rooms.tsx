@@ -1,8 +1,110 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, BedDouble, Wifi } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { ArrowUpRight, Check } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ContactCta, ContentBand, PageHero, SectionIntro, SiteFooter, SiteHeader, routeHead } from "@/components/site";
-import { photos, roomTypes } from "@/lib/hotel-content";
+import {
+  ContactCta,
+  PageBand,
+  PageHero,
+  SectionIntro,
+  SiteFooter,
+  routeHead,
+} from "@/components/site";
+import { photos, roomCatalog } from "@/lib/resort-content";
 
-export const Route = createFileRoute("/rooms")({ head: () => routeHead("Rooms", "Explore Single, King, and Family room options at Getva Hotel in Debre Birhan."), component: Rooms });
-function Rooms() { return <><SiteHeader /><main><PageHero eyebrow="REST EASY IN DEBRE BIRHAN" title="Rooms for every journey." description="A welcome place to rest, whether you're travelling for work, with family, or to explore the highlands." image={photos.room} imageAlt="Illustrative Ethiopian hotel guest room" /><ContentBand><SectionIntro eyebrow="OUR ACCOMMODATION" title="Make yourself at home." text="Explore the room categories mentioned in the hotel's public information. Contact Getva for current layouts, bed configurations, features, and rates." /><div className="space-y-12">{roomTypes.map((room, i) => <article key={room.name} className="grid items-center gap-8 border-b border-border pb-12 md:grid-cols-2 lg:gap-16"><div className={i % 2 ? "md:order-2" : ""}><img src={room.image} alt={`Illustrative ${room.name.toLowerCase()} interior`} loading="lazy" width={1200} height={912} className="aspect-[4/3] w-full object-cover" /></div><div><p className="text-xs font-semibold tracking-[0.18em] text-accent">0{i + 1} / {room.label}</p><h2 className="mt-4 font-display text-[55px] leading-none">{room.name}</h2><p className="mt-5 max-w-md text-sm leading-8 text-muted-foreground">{room.description}</p><div className="mt-7 flex flex-wrap gap-5 text-sm text-muted-foreground"><span className="flex items-center gap-2"><BedDouble size={17} /> Bed options on request</span><span className="flex items-center gap-2"><Wifi size={17} /> Wi-Fi reported by hotel</span></div><Button asChild className="mt-8"><Link to="/contact">Inquire about this room <ArrowUpRight /></Link></Button></div></article>)}</div><p className="mt-8 text-xs leading-6 text-muted-foreground">Images are illustrative, not photographs of Getva's actual rooms. Availability, occupancy, amenities, and prices require confirmation from the hotel.</p></ContentBand><ContactCta title="Find the right room for you." /></main><SiteFooter /></>; }
+export const Route = createFileRoute("/rooms")({
+  head: () =>
+    routeHead(
+      "Rooms",
+      "Explore single, king, and family room options at Getva Hotel in Debre Birhan.",
+    ),
+  component: Rooms,
+});
+
+function Rooms() {
+  const [filter, setFilter] = useState<"All" | "Rooms" | "Family">("All");
+  const visibleRooms =
+    filter === "All" ? roomCatalog : roomCatalog.filter((room) => room.category === filter);
+
+  return (
+    <>
+      <PageHero
+        eyebrow="ROOMS"
+        title={
+          <>
+            Settle in, <em>your way.</em>
+          </>
+        }
+        description="Choose from single, king, and family room options, with current availability and rates confirmed directly by Getva."
+        image={photos.suite}
+      />
+      <PageBand>
+        <SectionIntro
+          eyebrow="YOUR PLACE IN DEBRE BIRHAN"
+          title="Come as you are."
+          text="Getva’s published room categories include single, king, and family options. Exact room features, bed configurations, occupancy, and rates should be confirmed with reservations."
+        />
+        <div className="mb-10 flex flex-wrap gap-2 border-b border-border pb-4">
+          {(["All", "Rooms", "Family"] as const).map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setFilter(item)}
+              className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-colors ${filter === item ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <div className="space-y-16">
+          {visibleRooms.map((room, index) => (
+            <article
+              key={room.name}
+              className="grid items-center gap-8 border-b border-border pb-16 last:border-0 md:grid-cols-2 md:gap-16"
+            >
+              <div className={index % 2 ? "md:order-2" : ""}>
+                <img
+                  src={room.image}
+                  alt={room.name}
+                  loading="lazy"
+                  width={1200}
+                  height={900}
+                  className="aspect-[4/3] w-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-xs font-semibold tracking-[0.18em] text-accent">
+                  0{index + 1} / {room.label}
+                </p>
+                <h2 className="mt-4 font-display text-[52px] leading-none sm:text-[66px]">
+                  {room.name}
+                </h2>
+                <p className="mt-5 max-w-md text-sm leading-8 text-muted-foreground">
+                  {room.description}
+                </p>
+                <ul className="mt-7 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
+                  {room.details.map((detail) => (
+                    <li key={detail} className="flex items-center gap-2">
+                      <Check size={15} className="text-accent" />
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild className="mt-8">
+                  <a href="/contact">
+                    Ask about this room <ArrowUpRight />
+                  </a>
+                </Button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </PageBand>
+      <ContactCta
+        title="Your room is waiting."
+        text="Share your dates and we’ll help you confirm the right room, availability, and current rate."
+      />
+      <SiteFooter />
+    </>
+  );
+}

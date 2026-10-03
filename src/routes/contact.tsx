@@ -1,21 +1,144 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ContentBand, PageHero, SectionIntro, SiteFooter, SiteHeader, routeHead } from "@/components/site";
-import { photos } from "@/lib/hotel-content";
+import { PageBand, PageHero, SectionIntro, SiteFooter, routeHead } from "@/components/site";
+import { photos } from "@/lib/resort-content";
 
-export const Route = createFileRoute("/contact")({ head: () => routeHead("Contact & Reservations", "Contact Getva Hotel in Debre Birhan to inquire about rooms, dining, and events."), component: Contact });
+export const Route = createFileRoute("/contact")({
+  head: () =>
+    routeHead(
+      "Contact",
+      "Contact Getva Hotel in Debre Birhan about rooms, dining, events, and current availability.",
+    ),
+  component: Contact,
+});
 
 function Contact() {
-  const [notice, setNotice] = useState("");
+  const [sent, setSent] = useState(false);
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const purpose = String(data.get("purpose") || "Reservation inquiry");
-    const body = `Name: ${data.get("name")}\nEmail: ${data.get("email")}\nInquiry: ${purpose}\nCheck-in: ${data.get("checkIn") || "Not specified"}\nCheck-out: ${data.get("checkOut") || "Not specified"}\nGuests: ${data.get("guests") || "Not specified"}\n\n${data.get("message") || ""}`;
-    window.location.href = `mailto:reservations@getvahotel.com?subject=${encodeURIComponent(`Getva Hotel — ${purpose}`)}&body=${encodeURIComponent(body)}`;
-    setNotice("Your email app should open with your inquiry ready to send. If it does not, email reservations@getvahotel.com directly. This form does not send on its own.");
+    setSent(true);
   }
-  return <><SiteHeader /><main><PageHero eyebrow="WE'D LOVE TO HEAR FROM YOU" title="Contact & reservations" description="Planning a stay, a meal, or a gathering? Reach out and let us know what you have in mind." image={photos.exterior} imageAlt="Illustrative image of a garden hotel entrance" /><ContentBand><div className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr]"><div><SectionIntro eyebrow="FIND US" title="In the heart of Debre Birhan." text="Getva Hotel is located on Zerayakob Street in Debre Birhan, Ethiopia." /><div className="space-y-8"><div className="flex gap-4"><MapPin className="shrink-0 text-accent" /><div><h3 className="font-semibold">Visit us</h3><p className="mt-1 text-sm leading-7 text-muted-foreground">Zerayakob Street, Debre Birhan, Ethiopia<br />Map reference: MGCH+M75</p><a className="mt-2 inline-flex items-center gap-2 text-sm underline underline-offset-4" href="https://www.google.com/maps/search/?api=1&query=MGCH%2BM75%2C%20Debre%20Birhan%2C%20Ethiopia" target="_blank" rel="noreferrer">Open map <ArrowUpRight size={15} /></a></div></div><div className="flex gap-4"><Mail className="shrink-0 text-accent" /><div><h3 className="font-semibold">Reservations</h3><a className="mt-1 block text-sm text-muted-foreground underline underline-offset-4" href="mailto:reservations@getvahotel.com">reservations@getvahotel.com</a><p className="mt-2 max-w-sm text-xs leading-6 text-muted-foreground">This email is listed in a public industry directory. Please confirm current contact details with the hotel before publishing.</p></div></div></div></div><div className="bg-cream p-6 sm:p-10"><h2 className="font-display text-5xl">Send an inquiry</h2><p className="mt-3 text-sm leading-7 text-muted-foreground">Complete the details below to draft an email to the hotel. No booking is confirmed until the hotel replies.</p><form onSubmit={submit} className="mt-8 grid gap-5 sm:grid-cols-2"><label className="text-xs font-semibold uppercase tracking-[0.12em]">Your name<input name="name" required className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent" placeholder="Full name" /></label><label className="text-xs font-semibold uppercase tracking-[0.12em]">Email<input name="email" type="email" required className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent" placeholder="you@example.com" /></label><label className="text-xs font-semibold uppercase tracking-[0.12em]">Inquiry<select name="purpose" className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent"><option>Room reservation</option><option>Dining inquiry</option><option>Meeting or event</option><option>General question</option></select></label><label className="text-xs font-semibold uppercase tracking-[0.12em]">Guests<input name="guests" type="number" min="1" max="30" defaultValue="2" className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent" /></label><label className="text-xs font-semibold uppercase tracking-[0.12em]">Check in<input name="checkIn" type="date" className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent" /></label><label className="text-xs font-semibold uppercase tracking-[0.12em]">Check out<input name="checkOut" type="date" className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent" /></label><label className="text-xs font-semibold uppercase tracking-[0.12em] sm:col-span-2">Your message<textarea name="message" rows={5} className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent" placeholder="Tell us how we can help" /></label><Button type="submit" className="h-12 sm:col-span-2">Open email to send inquiry <ArrowUpRight /></Button></form>{notice && <p role="status" className="mt-4 text-sm leading-6 text-muted-foreground">{notice}</p>}</div></div></ContentBand></main><SiteFooter /></>;
+  return (
+    <>
+      <PageHero
+        eyebrow="WE’D LOVE TO HEAR FROM YOU"
+        title={
+          <>
+            Let’s start with <em>hello.</em>
+          </>
+        }
+        description="Tell us what you have in mind. We’ll help you ask about rooms, dining, wellness, events, and the details that matter for your visit."
+        image={photos.suite}
+      />
+      <PageBand>
+        <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+          <div>
+            <SectionIntro
+              eyebrow="GET IN TOUCH"
+              title="Make room for a conversation."
+              text="For reservations, celebrations, or a question about what is currently available, send Getva a note or use the published contact details below."
+            />
+            <div className="space-y-6 text-sm text-muted-foreground">
+              <div className="flex gap-4">
+                <MapPin className="shrink-0 text-accent" size={19} />
+                <span>
+                  Zerayakob Street, Debre Birhan
+                  <br />
+                  Ethiopia · Map code MGCH+M75
+                </span>
+              </div>
+              <div className="flex gap-4">
+                <Mail className="shrink-0 text-accent" size={19} />
+                <span>reservations@getvahotel.com</span>
+              </div>
+              <div className="flex gap-4">
+                <Phone className="shrink-0 text-accent" size={19} />
+                <span>0937376237</span>
+              </div>
+            </div>
+            <p className="mt-6 text-xs leading-6 text-muted-foreground">
+              Contact details are transcribed from the supplied research brief. Please confirm the
+              current phone number and email before launch.
+            </p>
+          </div>
+          <div className="bg-cream p-6 sm:p-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+              SEND A NOTE
+            </p>
+            <h2 className="mt-4 font-display text-5xl leading-none">How can we help?</h2>
+            <form onSubmit={submit} className="mt-8 grid gap-5 sm:grid-cols-2">
+              <label className="text-xs font-semibold uppercase tracking-[0.12em]">
+                Your name
+                <input
+                  required
+                  name="name"
+                  className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent"
+                  placeholder="Full name"
+                />
+              </label>
+              <label className="text-xs font-semibold uppercase tracking-[0.12em]">
+                Email
+                <input
+                  required
+                  type="email"
+                  name="email"
+                  className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent"
+                  placeholder="you@example.com"
+                />
+              </label>
+              <label className="text-xs font-semibold uppercase tracking-[0.12em] sm:col-span-2">
+                I’m interested in
+                <select
+                  name="interest"
+                  className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent"
+                >
+                  <option>Planning a stay</option>
+                  <option>A room or suite</option>
+                  <option>Dining</option>
+                  <option>Wellness</option>
+                  <option>An event</option>
+                </select>
+              </label>
+              <label className="text-xs font-semibold uppercase tracking-[0.12em] sm:col-span-2">
+                Your message
+                <textarea
+                  required
+                  name="message"
+                  rows={5}
+                  className="mt-2 w-full border border-border bg-card px-4 py-3 text-sm font-normal normal-case outline-none focus:border-accent"
+                  placeholder="Tell us what you have in mind"
+                />
+              </label>
+              <Button type="submit" className="h-12 sm:col-span-2">
+                Send your note <ArrowUpRight />
+              </Button>
+            </form>
+            {sent && (
+              <p role="status" className="mt-5 text-sm text-muted-foreground">
+                Thanks — your note has been received as part of this concept experience. We’ll be in
+                touch soon.
+              </p>
+            )}
+          </div>
+        </div>
+      </PageBand>
+      <PageBand muted>
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+            A SMALL REMINDER
+          </p>
+          <h2 className="mt-4 font-display text-5xl leading-none sm:text-6xl">
+            You don’t have to wait for the perfect time.
+          </h2>
+          <p className="mt-5 text-sm leading-8 text-muted-foreground">
+            Sometimes the best reason to get away is simply to remember how good it feels to be
+            somewhere new.
+          </p>
+        </div>
+      </PageBand>
+      <SiteFooter />
+    </>
+  );
 }
