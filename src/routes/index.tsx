@@ -51,7 +51,7 @@ function Home() {
 
   return (
     <main>
-      <section id="home" className="relative min-h-[690px] overflow-visible bg-foreground text-primary-foreground lg:min-h-[735px]">
+      <section id="home" className="relative min-h-[630px] overflow-visible bg-foreground text-primary-foreground lg:min-h-[735px]">
         <img src={lobby} alt="Sunlit lobby overlooking the coast at Horizon Bay Resort" className="absolute inset-0 h-full w-full object-cover object-center" width={1536} height={1024} />
         <div className="hero-shade absolute inset-0" />
         <div className="relative z-10 mx-auto max-w-[1440px] px-5 pt-5 sm:px-8 lg:px-14 lg:pt-7">
@@ -79,7 +79,7 @@ function Home() {
             <p className="mt-7 max-w-[435px] text-sm leading-7 text-primary-foreground/85 sm:text-base">A world away from ordinary. Unwind, reconnect, and make every moment feel a little more yours.</p>
             <Button asChild variant="hero" className="mt-8"><a href="#booking">Explore your stay <ArrowUpRight /></a></Button>
           </div>
-          <div className="mt-20 flex items-end justify-between pb-14 text-xs sm:mt-24 lg:mt-20">
+          <div className="mt-20 hidden items-end justify-between pb-14 text-xs sm:mt-24 sm:flex lg:mt-20">
             <a href="#about" className="flex items-center gap-3 uppercase tracking-[0.16em] transition-opacity hover:opacity-70">Scroll to discover <ArrowDown size={15} /></a>
             <span className="hidden items-center gap-2 sm:flex"><MapPin size={15} /> Somewhere between sea and serenity</span>
           </div>
@@ -96,7 +96,7 @@ function Home() {
         </div>
       </section>
 
-      <section id="about" className="mx-auto grid max-w-[1300px] gap-10 px-5 pb-24 pt-44 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-20 lg:px-14 lg:pb-32 lg:pt-44">
+      <section id="about" className="mx-auto grid max-w-[1300px] gap-10 px-5 pb-24 pt-36 sm:px-8 sm:pt-44 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-20 lg:px-14 lg:pb-32 lg:pt-44">
         <div><p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-accent">WELCOME TO HORIZON BAY</p><h2 className="font-display text-[54px] leading-[0.95] sm:text-[70px]">The art of<br /><em>slowing down.</em></h2><p className="mt-8 max-w-[460px] text-sm leading-8 text-muted-foreground">At Horizon Bay, the best moments are the ones you never rush. From sun-drenched mornings to evenings by the water, this is your place to pause, breathe, and simply be.</p><Button asChild variant="text" className="mt-7"><a href="#experiences">Discover our world <ArrowUpRight /></a></Button></div>
         <div className="relative grid h-[380px] grid-cols-[1.35fr_0.7fr] gap-3 sm:h-[480px]"><img src={pool} alt="Infinity pool overlooking the bay" loading="lazy" width={1200} height={912} className="h-full w-full object-cover" /><img src={spa} alt="Relaxing spa room with an ocean view" loading="lazy" width={912} height={1200} className="h-[75%] w-full self-end object-cover" /><span className="absolute -bottom-5 left-[38%] flex size-24 flex-col items-center justify-center rounded-full bg-warm text-center text-[10px] font-semibold uppercase leading-4 tracking-[0.1em] text-warm-foreground sm:size-28"><Waves size={23} strokeWidth={1.3} className="mb-1" /> STAY A<br /> LITTLE LONGER</span></div>
       </section>
