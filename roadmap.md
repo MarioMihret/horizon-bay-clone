@@ -1,0 +1,3 @@
+- [ ] Rebrand the site for Getva Hotel with grounded Debre Birhan content and imagery.
+- [ ] Build distinct working Home, Rooms, Dining, Wellness, Events, About, Gallery, Explore, and Contact pages.
+- [ ] Check navigation, reservation inquiry, mobile display, and preview errors.
