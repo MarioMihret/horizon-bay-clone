@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useRouterState,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
@@ -127,9 +128,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isNavigating = useRouterState({ select: (state) => state.status === "pending" });
 
   return (
     <QueryClientProvider client={queryClient}>
+      {isNavigating && (
+        <div
+          className="fixed inset-x-0 top-0 z-[100] h-1 overflow-hidden bg-accent/20"
+          role="status"
+          aria-label="Loading page"
+        >
+          <div className="loading-line h-full w-1/3 bg-accent" />
+        </div>
+      )}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

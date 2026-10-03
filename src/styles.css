@@ -139,11 +139,26 @@
 .photo-zoom:hover img {
   transform: scale(1.045);
 }
+.loading-line {
+  animation: loading-line 900ms ease-in-out infinite alternate;
+}
+@keyframes loading-line {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .photo-zoom img {
     transition: none;
+  }
+  .loading-line {
+    animation: none;
+    transform: translateX(0);
   }
 }

@@ -186,7 +186,7 @@ function Home() {
               </Link>
               <Link
                 className="text-xs font-medium transition-opacity hover:opacity-70"
-                to="/explore"
+                to="/wellness"
               >
                 Wellness & Recreation
               </Link>
@@ -220,32 +220,37 @@ function Home() {
               className="nav-mobile fixed left-5 right-5 top-[93px] z-40 flex flex-col gap-1 border border-primary-foreground/20 p-4 sm:left-8 sm:right-8 lg:hidden"
             >
               {[
-                ["Home", "#home"],
-                ["About", "#about"],
-                ["Rooms", "#rooms"],
-                ["Wellness & Recreation", "#experiences"],
-                ["Contact", "#contact"],
+                ["Home", "/"],
+                ["About", "/about"],
+                ["Rooms", "/rooms"],
+                ["Dining", "/dining"],
+                ["Wellness & Recreation", "/wellness"],
+                ["Events", "/events"],
+                ["Gallery", "/gallery"],
+                ["Contact", "/contact"],
                 ["Book your stay", "/booking"],
               ].map(([label, href]) =>
-                label === "Book your stay" ? (
+                href.startsWith("/") ? (
                   <Link
                     key={href}
-                    to="/booking"
+                    to={
+                      href as
+                        | "/"
+                        | "/about"
+                        | "/rooms"
+                        | "/dining"
+                        | "/wellness"
+                        | "/events"
+                        | "/gallery"
+                        | "/contact"
+                        | "/booking"
+                    }
                     onClick={() => setMenuOpen(false)}
                     className="px-3 py-3 text-sm hover:bg-primary-foreground/10"
                   >
                     {label}
                   </Link>
-                ) : (
-                  <a
-                    key={href}
-                    href={href}
-                    onClick={() => setMenuOpen(false)}
-                    className="px-3 py-3 text-sm hover:bg-primary-foreground/10"
-                  >
-                    {label}
-                  </a>
-                ),
+                ) : null,
               )}
             </nav>
           )}
@@ -283,10 +288,10 @@ function Home() {
         </div>
         <div
           id="booking"
-          className="booking-shadow absolute bottom-0 left-1/2 z-20 w-[calc(100%-40px)] max-w-[1250px] -translate-x-1/2 translate-y-1/2 bg-card px-4 py-3 text-card-foreground sm:w-[calc(100%-64px)] lg:px-6"
+          className="booking-shadow relative z-20 mx-auto mt-10 w-[calc(100%-40px)] max-w-[1250px] bg-card px-4 py-3 text-card-foreground sm:w-[calc(100%-64px)] lg:absolute lg:bottom-0 lg:left-1/2 lg:mx-0 lg:mt-0 lg:-translate-x-1/2 lg:translate-y-1/2 lg:px-6"
         >
-          <div className="grid grid-cols-2 gap-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:gap-0">
-            <div className="flex min-h-[62px] items-center gap-3 border-border px-2 lg:border-r lg:px-5">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:gap-0">
+            <div className="flex min-h-[62px] items-center gap-3 border-b border-border px-2 pb-2 sm:col-span-2 lg:col-span-1 lg:border-b-0 lg:border-r lg:px-5 lg:pb-0">
               <MapPin className="size-5 shrink-0 text-accent" strokeWidth={1.5} />
               <div className="min-w-0">
                 <span className="block text-[10px] font-semibold uppercase tracking-[0.13em]">
@@ -297,7 +302,7 @@ function Home() {
                 </span>
               </div>
             </div>
-            <label className="flex min-h-[62px] items-center gap-3 border-border px-2 lg:border-r lg:px-5">
+            <label className="flex min-h-[62px] items-center gap-3 border-b border-border px-2 pb-2 lg:border-b-0 lg:border-r lg:px-5 lg:pb-0">
               <CalendarDays className="size-5 shrink-0 text-accent" strokeWidth={1.5} />
               <span className="min-w-0 flex-1">
                 <span className="block text-[10px] font-semibold uppercase tracking-[0.13em]">
@@ -316,7 +321,7 @@ function Home() {
                 />
               </span>
             </label>
-            <label className="flex min-h-[62px] items-center gap-3 border-border px-2 lg:border-r lg:px-5">
+            <label className="flex min-h-[62px] items-center gap-3 border-b border-border px-2 pb-2 lg:border-b-0 lg:border-r lg:px-5 lg:pb-0">
               <CalendarDays className="size-5 shrink-0 text-accent" strokeWidth={1.5} />
               <span className="min-w-0 flex-1">
                 <span className="block text-[10px] font-semibold uppercase tracking-[0.13em]">
@@ -364,7 +369,7 @@ function Home() {
             </div>
             <Button
               variant="default"
-              className="col-span-2 h-[62px] w-full lg:col-span-1 lg:w-[165px]"
+              className="h-[62px] w-full sm:col-span-2 lg:col-span-1 lg:w-[165px]"
               onClick={exploreStays}
             >
               See room options <ArrowUpRight />
